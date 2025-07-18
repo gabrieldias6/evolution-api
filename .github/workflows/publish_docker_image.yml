@@ -16,13 +16,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: evoapicloud/evolution-api
-          tags: type=semver,pattern=v{{version}}
-
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
@@ -41,8 +34,7 @@ jobs:
         with:
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: gabriel
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
