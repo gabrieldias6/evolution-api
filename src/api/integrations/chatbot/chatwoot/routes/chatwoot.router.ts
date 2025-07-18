@@ -31,14 +31,19 @@ export class ChatwootRouter extends RouterBroker {
         res.status(HttpStatus.OK).json(response);
       })
       .post(this.routerPath('webhook'), async (req, res) => {
-        const response = await this.dataValidate<InstanceDto>({
-          request: req,
-          schema: instanceSchema,
-          ClassRef: InstanceDto,
-          execute: (instance, data) => chatwootController.receiveWebhook(instance, data),
+        res.sendStatus(200); // responde imediatamente ao Chatwoot
+
+        setImmediate(() => {
+
+          this.dataValidate<InstanceDto>({
+            request: req,
+            schema: instanceSchema,
+            ClassRef: InstanceDto,
+            execute: (instance, data) => chatwootController.receiveWebhook(instance, data),
+          }).then((response) => { });
+
         });
 
-        res.status(HttpStatus.OK).json(response);
       });
   }
 
