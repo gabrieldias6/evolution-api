@@ -20,7 +20,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: evoapicloud/evolution-api
+          images: gabrieldias6/evolution-api
           tags: gabriel
 
       - name: Set up QEMU
@@ -41,7 +41,8 @@ jobs:
         with:
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: gabriel
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
